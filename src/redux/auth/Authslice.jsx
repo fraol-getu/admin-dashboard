@@ -1,14 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { asyncThunkCreator, createSlice } from "@reduxjs/toolkit";
+import { Outlet, useNavigate } from "react-router-dom";
+const navigate = useNavigate()
 const initialState = {
   user: null,
   pwd: null,
   email:null,
   errMsg: '',
   accessToken: null,
-  isSucess: false,
-  
+  isSuccess: false,
+
 
 }
+export  const Redirect = asyncThunkCreator("Redirect", async(isSuccess) => {
+ if(isSuccess) {
+   navigate(Outlet)
+  } else{
+    navigate('/')
+  }
+  
+})
+
 const Authslice = createSlice({
     name: 'auth',
     initialState,
@@ -16,7 +27,7 @@ const Authslice = createSlice({
     reducers: {
   loginRequest: (state) => {
     state.errMsg = ''
-     state.isSucess = false
+     state.isSuccess = false
    },
   
    loginSucesss: (state, action) => {
@@ -24,6 +35,9 @@ const Authslice = createSlice({
      state.email = action.payload
       state.accessToken = action.payload.accessToken
      state.isSucess = true
+    
+     
+     
      
    },
 
@@ -37,6 +51,8 @@ const Authslice = createSlice({
     state.token = token;
     state.isSucess = !!token;
   },
+
+  
 
    
     }

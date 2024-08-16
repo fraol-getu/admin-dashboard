@@ -1,7 +1,9 @@
 import { useRef, useState, useEffect, useContext, } from 'react';
-import { loginRequest, loginSucesss, loginfailure, saveStorage} from '../../redux/auth/Authslice';
+import { loginRequest, loginSucesss, loginfailure, saveStorage, } from '../../redux/auth/Authslice';
+ 
 import axios from '../../api/axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { Outlet, useNavigate } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
 // import AuthContext from "../../context/AuthProvider";
 
@@ -17,10 +19,14 @@ const Login = () => {
     const [success, setSuccess] = useState(false);
     // const  [auth, setAuth] = useState({})
     // const { setAuth} = useContext(AuthContext)
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const {isSucess}   = useSelector(state => state.auth)
+    
+   
     useEffect(() => {
         dispatch(saveStorage())
+        dispatch()
         userRef.current.focus();
     }, [])
 
@@ -49,8 +55,12 @@ const Login = () => {
             dispatch(loginSucesss( pwd, email,  accessToken))
              setPwd('');
             setEmail('')
-          
+            
+            
+            
+           
         } catch (err) {
+            // dispatch(loginfailure())
             if (!err?.response) {
                setErrMsg('No Server Response');
             } else if (err.response?.status === 400) {
@@ -66,7 +76,8 @@ const Login = () => {
     
 
     return (
-        
+       
+      
         <section>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Sign In</h1>
@@ -110,6 +121,7 @@ const Login = () => {
                         </span>
                     </p>
                 </section>
+                
         
         
     )
