@@ -1,12 +1,9 @@
-import { useRef, useState, useEffect, useContext, } from 'react';
+import { useRef, useState, useEffect} from 'react';
 import { loginRequest, loginSucesss, loginfailure, saveStorage, } from '../../redux/auth/Authslice';
  
 import axios from '../../api/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
-// import AuthContext from "../../context/AuthProvider";
-
 const LOGIN_URL = '/auth/login';
  
 const Login = () => {
@@ -17,18 +14,14 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
-    // const  [auth, setAuth] = useState({})
-    // const { setAuth} = useContext(AuthContext)
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const {isSucess}   = useSelector(state => state.auth)
-    
-   
     useEffect(() => {
-        dispatch(saveStorage())
-        dispatch()
+    //    dispatch(saveStorage())
         userRef.current.focus();
-    }, [])
+}, [])
 
     useEffect(() => {
        setErrMsg('');
@@ -56,10 +49,7 @@ const Login = () => {
              setPwd('');
             setEmail('')
             
-            
-            
-           
-        } catch (err) {
+         } catch (err) {
             // dispatch(loginfailure())
             if (!err?.response) {
                setErrMsg('No Server Response');
@@ -70,15 +60,24 @@ const Login = () => {
             } else {
                setErrMsg('Login Failed');
             }
+           
             errRef.current.focus();
         }
     }
     
 
     return (
+      <>
+      
+      {
+        isSucess ? (
+            navigate('/')
+        ) :(
+            
        
       
-        <section>
+      
+      <section>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Sign In</h1>
                     <form onSubmit={handleSubmit}>
@@ -116,13 +115,18 @@ const Login = () => {
                     <p>
                         Need an Account?<br />
                         <span className="line">
-                            {/*put router link here*/}
+                           
                             <a href="#">Sign Up</a>
                         </span>
                     </p>
                 </section>
                 
-        
+            )
+            }
+      
+      
+                </>
+     
         
     )
 }

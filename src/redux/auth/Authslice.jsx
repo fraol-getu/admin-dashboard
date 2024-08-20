@@ -1,24 +1,15 @@
 import { asyncThunkCreator, createSlice } from "@reduxjs/toolkit";
 import { Outlet, useNavigate } from "react-router-dom";
-const navigate = useNavigate()
+
 const initialState = {
   user: null,
   pwd: null,
   email:null,
   errMsg: '',
   accessToken: null,
-  isSuccess: false,
-
-
+  isSucess: false,
 }
-export  const Redirect = asyncThunkCreator("Redirect", async(isSuccess) => {
- if(isSuccess) {
-   navigate(Outlet)
-  } else{
-    navigate('/')
-  }
-  
-})
+
 
 const Authslice = createSlice({
     name: 'auth',
@@ -31,15 +22,10 @@ const Authslice = createSlice({
    },
   
    loginSucesss: (state, action) => {
-     state.pwd  = action.payload
-     state.email = action.payload
+      state.user = action.payload.user
       state.accessToken = action.payload.accessToken
      state.isSucess = true
-    
-     
-     
-     
-   },
+    },
 
    loginfailure:(state,  action) => {
     state.errMsg = action.payload.message
@@ -47,10 +33,17 @@ const Authslice = createSlice({
    },
 
    saveStorage: (state) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.setItem('token');
     state.token = token;
     state.isSucess = !!token;
   },
+
+  logOut: (state) => {
+    state.user = null;
+    state.accessToken = null;
+    state.isSuccess = false;
+    localStorage.removeItem('token'); 
+  }
 
   
 
@@ -60,5 +53,5 @@ const Authslice = createSlice({
 
 })
 
-export const { loginRequest, loginSucesss, loginfailure, saveStorage } = Authslice.actions
+export const { loginRequest, loginSucesss, loginfailure, saveStorage, logOut } = Authslice.actions
 export  default Authslice.reducer

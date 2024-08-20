@@ -39,6 +39,14 @@ body {
   padding: 0 30px 0 30px;
   box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
 }
+.header-btn{
+  width: 7rem;
+  height: 3rem;
+  border-radius: 1.5rem;
+}
+.header-btn:hover{
+  cursor: pointer;
+}
 .menu-icons {
   display: none;
 }

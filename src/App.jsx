@@ -5,27 +5,21 @@ import News from './pages/news/News'
 import './App.css'
 import Login from './component/login/Login'
 import { PrivateRoute } from './routes/Route'
-import { useSelector } from 'react-redux'
 function App() {
-const {isSuccess} = useSelector(state => state.auth)
+
 return (
     
  <>
- {/* <Router>
+ <Router>
   <Routes>
   
-    <Route path='/' element={<Login />} /> 
-    <Route path='/' element={<Outlet />} >
-     <Route path='/home'  element={<Home />} />
+    <Route path='/login' element={<Login />} /> 
+    <Route path='/' element={<PrivateRoute><Outlet /> </PrivateRoute>} >
+     <Route index  element={<Home />} />
      <Route path='/news' element={<News />} />
     </Route> 
-
-   
-    
-  </Routes>
- </Router> */}
- 
-<Home />
+</Routes>
+ </Router>
  </>
  
    
